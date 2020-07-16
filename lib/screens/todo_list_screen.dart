@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
@@ -16,8 +14,9 @@ class TodoListScreen extends StatelessWidget {
       List.generate(
         20,
         (i) => Todo(
-          'Todo $i',
-          'Description of Todo $i',
+          id: i,
+          title: 'Todo $i',
+          description: 'Description of Todo $i',
         ),
       ),
     ));

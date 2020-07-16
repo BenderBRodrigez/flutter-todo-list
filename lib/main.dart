@@ -5,7 +5,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import './screens/todo_list_screen.dart';
 import './screens/todo_item_screen.dart';
 import './redux/state.dart';
-import './redux/reduces.dart';
+import './redux/reducers.dart';
 
 void main() {
   final _initialState = AppState(todos: []);
