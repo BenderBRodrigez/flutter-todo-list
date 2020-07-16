@@ -4,6 +4,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:todo_flutter/shared/todo.dart';
 import 'package:todo_flutter/redux/state.dart';
 import 'package:todo_flutter/redux/actions.dart';
+import '../redux/selectors.dart';
 
 class TodoListScreen extends StatelessWidget {
   TodoListScreen({Key key}) : super(key: key);
@@ -25,19 +26,19 @@ class TodoListScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text('ToDo list'),
         ),
-        body: StoreConnector<AppState, AppState>(
-          converter: (store) => store.state,
-          builder: (context, state) {
+        body: StoreConnector<AppState, List<Todo>>(
+          converter: (store) => getTodos(store.state),
+          builder: (context, todos) {
             return ListView.builder(
-              itemCount: state.todos.length,
+              itemCount: todos.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                  title: Text(state.todos[index].title),
+                  title: Text(todos[index].title),
                   onTap: () {
                     Navigator.pushNamed(
                       context,
                       '/item',
-                      arguments: state.todos[index],
+                      arguments: todos[index],
                     );
                   },
                 );
