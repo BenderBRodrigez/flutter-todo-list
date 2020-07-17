@@ -5,7 +5,11 @@ class AppState {
 
   AppState({this.todos});
 
-  AppState.fromAppState(AppState state) {
-    todos = state.todos;
-  }
+  static AppState initialState() => AppState(
+    todos: [],
+  );
+
+  AppState copy({List<Todo> todos}) => AppState(
+    todos: todos ?? this.todos,
+  );
 }

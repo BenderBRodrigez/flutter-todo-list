@@ -1,26 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
+import 'package:async_redux/async_redux.dart';
 
 import 'package:todo_flutter/shared/todo.dart';
 import 'package:todo_flutter/redux/state.dart';
 import 'package:todo_flutter/redux/actions.dart';
-import '../redux/selectors.dart';
+import 'package:todo_flutter/redux/selectors.dart';
 
 class TodoListScreen extends StatelessWidget {
   TodoListScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    StoreProvider.of<AppState>(context).dispatch(GetTodoList(
-      List.generate(
-        20,
-        (i) => Todo(
-          id: i,
-          title: 'Todo $i',
-          description: 'Description of Todo $i',
-        ),
-      ),
-    ));
+    StoreProvider.of<AppState>(context, {}).dispatch(GetTodoListAction());
 
     return Scaffold(
         appBar: AppBar(
