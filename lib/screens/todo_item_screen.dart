@@ -1,15 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:async_redux/async_redux.dart';
 
-import '../shared/todo.dart';
+import 'package:todo_flutter/shared/todo.dart';
+import 'package:todo_flutter/redux/state.dart';
+import 'package:todo_flutter/redux/actions.dart';
+import 'package:todo_flutter/redux/selectors.dart';
 
 class TodoItemScreen extends StatelessWidget {
+  void checkTodo({BuildContext context, int id, bool value}) {
+    final updated = Todo(id: id, complete: value);
+    StoreProvider.of<AppState>(context, {}).dispatch(CheckTodoAction(updated));
+  }
+
   @override
   Widget build(BuildContext context) {
-    final Todo todo = ModalRoute.of(context).settings.arguments;
+    final int index = ModalRoute.of(context).settings.arguments;
 
+    StoreProvider.of<AppState>(context, {}).dispatch(SelectTodoAction(index));
+
+    return StoreConnector<AppState, Todo>(
+      converter: (store) => getSelectedTodo(store.state),
+      builder: this.buildTodoItem,
+    );
+  }
+
+  Widget buildTodoItem(BuildContext context, Todo todo) {
     return Scaffold(
       appBar: AppBar(
         title: Text(todo.title),
+        centerTitle: true,
+        actions: [
+          Checkbox(
+            value: todo.complete,
+            onChanged: (value) => this.checkTodo(context: context, id: todo.id, value: value),
+          ),
+        ],
       ),
       body: Padding(
         padding: EdgeInsets.all(12.0),

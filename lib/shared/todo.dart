@@ -1,5 +1,5 @@
 class Todo {
-  final bool complete;
+  bool complete;
   final int id;
   final String title;
   final String description;
