@@ -7,16 +7,16 @@ import 'package:todo_flutter/redux/actions.dart';
 import 'package:todo_flutter/redux/selectors.dart';
 
 class TodoItemScreen extends StatelessWidget {
-  void checkTodo({BuildContext context, int id, bool value}) {
+  void checkTodo({int id, bool value}) {
     final updated = Todo(id: id, complete: value);
-    StoreProvider.of<AppState>(context, {}).dispatch(CheckTodoAction(updated));
+    store.dispatch(CheckTodoAction(updated));
   }
 
   @override
   Widget build(BuildContext context) {
     final int index = ModalRoute.of(context).settings.arguments;
 
-    StoreProvider.of<AppState>(context, {}).dispatch(SelectTodoAction(index));
+    store.dispatch(SelectTodoAction(index));
 
     return StoreConnector<AppState, Todo>(
       converter: (store) => getSelectedTodo(store.state),
@@ -32,7 +32,7 @@ class TodoItemScreen extends StatelessWidget {
         actions: [
           Checkbox(
             value: todo.complete,
-            onChanged: (value) => this.checkTodo(context: context, id: todo.id, value: value),
+            onChanged: (value) => this.checkTodo(id: todo.id, value: value),
           ),
         ],
       ),

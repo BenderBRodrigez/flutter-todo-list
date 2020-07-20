@@ -9,15 +9,14 @@ import 'package:todo_flutter/redux/selectors.dart';
 class TodoListScreen extends StatelessWidget {
   TodoListScreen({Key key}) : super(key: key);
 
-  void checkTodo({BuildContext context, int id, bool value}) {
+  void checkTodo({int id, bool value}) {
     final updated = Todo(id: id, complete: value);
-    StoreProvider.of<AppState>(context, {}).dispatch(CheckTodoAction(updated));
+    store.dispatch(CheckTodoAction(updated));
   }
-
 
   @override
   Widget build(BuildContext context) {
-    StoreProvider.of<AppState>(context, {}).dispatch(GetTodoListAction());
+    store.dispatch(GetTodoListAction());
 
     return Scaffold(
       appBar: AppBar(
@@ -41,7 +40,7 @@ class TodoListScreen extends StatelessWidget {
     return ListTile(
       leading: Checkbox(
         value: todos[index].complete,
-        onChanged: (value) => this.checkTodo(context: context, id: index, value: value),
+        onChanged: (value) => this.checkTodo(id: index, value: value),
       ),
       title: Text(todos[index].title),
       onTap: () {

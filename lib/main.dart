@@ -6,15 +6,10 @@ import './screens/todo_item_screen.dart';
 import './redux/state.dart';
 
 void main() {
-  final _store = Store<AppState>(initialState: AppState.initialState());
-  runApp(App(store: _store));
+  runApp(App());
 }
 
 class App extends StatelessWidget {
-  final Store<AppState> store;
-
-  App({this.store});
-
   @override
   Widget build(BuildContext context) {
     return StoreProvider<AppState>(
