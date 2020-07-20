@@ -3,8 +3,8 @@ import 'package:async_redux/async_redux.dart';
 
 import 'package:todo_flutter/shared/todo.dart';
 import 'package:todo_flutter/redux/state.dart';
-import 'package:todo_flutter/redux/actions.dart';
-import 'package:todo_flutter/redux/selectors.dart';
+import 'package:todo_flutter/redux/todos/actions.dart';
+import 'package:todo_flutter/redux/todos/selectors.dart';
 
 class TodoListScreen extends StatelessWidget {
   TodoListScreen({Key key}) : super(key: key);

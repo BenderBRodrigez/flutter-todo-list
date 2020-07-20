@@ -1,7 +1,7 @@
 import 'package:async_redux/async_redux.dart';
 
-import '../shared/todo.dart';
-import '../redux/state.dart';
+import '../../shared/todo.dart';
+import '../state.dart';
 
 class GetTodoListAction extends ReduxAction<AppState> {
   final payload = List.generate(
@@ -16,7 +16,7 @@ class GetTodoListAction extends ReduxAction<AppState> {
 
   @override
   AppState reduce() {
-    return state.copy(todos: this.payload);
+    return state.update(todos: state.todos.update(entities: this.payload));
   }
 }
 
@@ -27,7 +27,7 @@ class SelectTodoAction extends ReduxAction<AppState> {
 
   @override
   AppState reduce() {
-    return state.copy(selectedId: payload);
+    return state.update(todos: state.todos.update(selectedId: payload));
   }
 }
 
@@ -38,9 +38,9 @@ class CheckTodoAction extends ReduxAction<AppState> {
 
   @override
   AppState reduce() {
-    final todo = state.todos.singleWhere((element) => element.id == payload.id);
+    final todo = state.todos.entities.singleWhere((element) => element.id == payload.id);
     todo.complete = payload.complete;
 
-    return state.updateTodo(todo);
+    return state.update(todos: state.todos.updateCollection(entities: [todo]));
   }
 }
