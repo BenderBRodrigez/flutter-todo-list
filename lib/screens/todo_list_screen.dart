@@ -16,15 +16,20 @@ class TodoListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    store.dispatch(GetTodoListAction());
-
     return Scaffold(
       appBar: AppBar(
         title: Text('ToDo list'),
+        centerTitle: true,
       ),
       body: StoreConnector<AppState, List<Todo>>(
         converter: (store) => getTodos(store.state),
-        builder: this.buildList,
+        builder: buildList,
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, '/add');
+        },
+        child: Icon(Icons.add),
       ),
     );
   }
@@ -32,7 +37,7 @@ class TodoListScreen extends StatelessWidget {
   Widget buildList(BuildContext context, List<Todo> todos) {
     return ListView.builder(
       itemCount: todos.length,
-      itemBuilder: (context, index) => this.buildItem(context, todos, index),
+      itemBuilder: (context, index) => buildItem(context, todos, index),
     );
   }
 

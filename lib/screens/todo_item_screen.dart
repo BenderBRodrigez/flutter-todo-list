@@ -20,7 +20,7 @@ class TodoItemScreen extends StatelessWidget {
 
     return StoreConnector<AppState, Todo>(
       converter: (store) => getSelectedTodo(store.state),
-      builder: this.buildTodoItem,
+      builder: buildTodoItem,
     );
   }
 

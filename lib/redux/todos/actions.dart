@@ -1,18 +1,12 @@
 import 'package:async_redux/async_redux.dart';
 
-import '../../shared/todo.dart';
-import '../state.dart';
+import 'package:todo_flutter/shared/todo.dart';
+import 'package:todo_flutter/redux/state.dart';
 
-class GetTodoListAction extends ReduxAction<AppState> {
-  final payload = List.generate(
-    20,
-    (i) => Todo(
-      id: i,
-      title: 'Todo $i',
-      description: 'Description of Todo $i',
-      complete: false,
-    ),
-  );
+class SetTodoListAction extends ReduxAction<AppState> {
+  final List<Todo> payload;
+
+  SetTodoListAction(this.payload);
 
   @override
   AppState reduce() {
@@ -43,4 +37,24 @@ class CheckTodoAction extends ReduxAction<AppState> {
 
     return state.update(todos: state.todos.updateCollection(entities: [todo]));
   }
+}
+
+class CreateTodoAction extends ReduxAction<AppState> {
+  final Todo payload;
+
+  CreateTodoAction(this.payload);
+
+  @override
+  AppState reduce() {
+    final todo = Todo(
+        id: state.todos.entities.length,
+        title: payload.title,
+        description: payload.description,
+        complete: false,
+    );
+    return state.update(todos: state.todos.updateCollection(entities: [todo]));
+  }
+
+  @override
+  void after() => dispatch(NavigateAction.pushNamed('/'));
 }
