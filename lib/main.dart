@@ -20,7 +20,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     store.dispatch(SetTodoListAction(List.generate(
       10,
-          (i) => Todo(
+      (i) => Todo(
         id: i,
         title: 'Todo $i',
         description: 'Description of Todo $i',

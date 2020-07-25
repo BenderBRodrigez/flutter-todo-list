@@ -1,4 +1,5 @@
 import 'package:async_redux/async_redux.dart';
+import 'package:todo_flutter/redux/todos/state.dart';
 
 import 'package:todo_flutter/shared/todo.dart';
 import 'package:todo_flutter/redux/state.dart';
@@ -56,5 +57,16 @@ class CreateTodoAction extends ReduxAction<AppState> {
   }
 
   @override
-  void after() => dispatch(NavigateAction.pushNamed('/'));
+  void after() => dispatch(NavigateAction.pop());
+}
+
+class SortTodosAction extends ReduxAction<AppState> {
+  final Sort payload;
+
+  SortTodosAction(this.payload);
+
+  @override
+  AppState reduce() {
+    return state.update(todos: state.todos.update(sort: payload));
+  }
 }
