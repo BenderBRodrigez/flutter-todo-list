@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:async_redux/async_redux.dart';
 
+import 'package:todo_flutter/screens/google_maps_screen.dart';
 import 'package:todo_flutter/screens/todo_list_screen.dart';
 import 'package:todo_flutter/screens/todo_item_screen.dart';
 import 'package:todo_flutter/screens/add_todo_item_screen.dart';
@@ -38,6 +39,7 @@ class App extends StatelessWidget {
           '/': (context) => TodoListScreen(),
           '/item': (context) => TodoItemScreen(),
           '/add': (context) => AddTodoItemScreen(),
+          '/map': (context) => MapSample(),
         },
       ),
     );
