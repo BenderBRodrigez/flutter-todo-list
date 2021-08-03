@@ -1,8 +1,8 @@
 import 'package:async_redux/async_redux.dart';
-import 'package:todo_flutter/redux/todos/state.dart';
 
-import 'package:todo_flutter/shared/todo.dart';
-import 'package:todo_flutter/redux/state.dart';
+import 'state.dart';
+import '../state.dart';
+import '../../shared/todo.dart';
 
 class SetTodoListAction extends ReduxAction<AppState> {
   final List<Todo> payload;
@@ -27,7 +27,7 @@ class SelectTodoAction extends ReduxAction<AppState> {
 }
 
 class CheckTodoAction extends ReduxAction<AppState> {
-  final Todo payload;
+  final UpdateTodo payload;
 
   CheckTodoAction(this.payload);
 
@@ -41,7 +41,7 @@ class CheckTodoAction extends ReduxAction<AppState> {
 }
 
 class CreateTodoAction extends ReduxAction<AppState> {
-  final Todo payload;
+  final CreateTodo payload;
 
   CreateTodoAction(this.payload);
 

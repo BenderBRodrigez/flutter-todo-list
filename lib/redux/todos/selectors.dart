@@ -1,6 +1,5 @@
-import 'package:todo_flutter/redux/todos/state.dart';
-import 'package:todo_flutter/shared/todo.dart';
-import 'package:todo_flutter/redux/state.dart';
+import 'state.dart';
+import '../../shared/todo.dart';
 
 List<Todo> sortTodos(List<Todo> todos, Sort sortParam) {
   print(sortParam);
@@ -16,6 +15,6 @@ List<Todo> sortTodos(List<Todo> todos, Sort sortParam) {
   return todos;
 }
 
-Todo getSelectedTodo(AppState state) {
-  return state.todos.entities.singleWhere((element) => element.id == state.todos.selectedId);
+Todo getSelectedTodo(List<Todo> todos, int selectedId) {
+  return todos.singleWhere((element) => element.id == selectedId);
 }

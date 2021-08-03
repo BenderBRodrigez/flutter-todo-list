@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:async_redux/async_redux.dart';
 
-import 'package:todo_flutter/shared/todo.dart';
-import 'package:todo_flutter/redux/state.dart';
-import 'package:todo_flutter/redux/todos/state.dart';
-import 'package:todo_flutter/redux/todos/actions.dart';
-import 'package:todo_flutter/redux/todos/selectors.dart';
+import '../shared/todo.dart';
+import '../shared/todo_item_screen_arguments.dart';
+import '../redux/state.dart';
+import '../redux/todos/state.dart';
+import '../redux/todos/actions.dart';
+import '../redux/todos/selectors.dart';
 
 class ViewModel extends BaseModel<AppState> {
   ViewModel();
 
-  List<Todo> todos;
-  Sort sortParam;
+  late List<Todo> todos;
+  late Sort sortParam;
 
   ViewModel.build({
-    @required this.todos,
-    @required this.sortParam,
+    required this.todos,
+    required this.sortParam,
   }) : super(equals: [todos, sortParam]);
 
   @override
@@ -26,12 +27,12 @@ class ViewModel extends BaseModel<AppState> {
 }
 
 class TodoListScreen extends StatelessWidget {
-  TodoListScreen({Key key}) : super(key: key);
+  TodoListScreen({Key? key}) : super(key: key);
 
   void _closeDrawer(BuildContext context) => Navigator.of(context).pop();
 
-  void checkTodo({int id, bool value}) {
-    final updated = Todo(id: id, complete: value);
+  void checkTodo({required int id, required bool value}) {
+    final updated = UpdateTodo(id: id, complete: value);
     store.dispatch(CheckTodoAction(updated));
   }
 
@@ -59,7 +60,7 @@ class TodoListScreen extends StatelessWidget {
     );
   }
 
-  Widget buildList({BuildContext context, List<Todo> todos}) {
+  Widget buildList({required BuildContext context, List<Todo> todos = const []}) {
     return ListView.builder(
       itemCount: todos.length,
       itemBuilder: (context, index) => buildItem(context, todos[index]),
@@ -70,7 +71,7 @@ class TodoListScreen extends StatelessWidget {
     return ListTile(
       leading: Checkbox(
         value: todo.complete,
-        onChanged: (value) => this.checkTodo(id: todo.id, value: value),
+        onChanged: (value) => this.checkTodo(id: todo.id, value: value ?? false),
       ),
       title: Text(
         todo.title,
@@ -80,7 +81,7 @@ class TodoListScreen extends StatelessWidget {
         Navigator.pushNamed(
           context,
           '/item',
-          arguments: todo.id,
+          arguments: TodoItemScreenArguments(todo.id),
         );
       },
     );

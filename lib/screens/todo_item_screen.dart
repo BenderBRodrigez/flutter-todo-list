@@ -1,30 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:async_redux/async_redux.dart';
 
-import 'package:todo_flutter/shared/todo.dart';
-import 'package:todo_flutter/redux/state.dart';
-import 'package:todo_flutter/redux/todos/actions.dart';
-import 'package:todo_flutter/redux/todos/selectors.dart';
+import '../shared/todo.dart';
+import '../shared/todo_item_screen_arguments.dart';
+import '../redux/state.dart';
+import '../redux/todos/actions.dart';
+import '../redux/todos/selectors.dart';
+
+class ViewModel extends BaseModel<AppState> {
+  ViewModel();
+
+  late List<Todo> todos;
+  late int selectedId;
+
+  ViewModel.build({
+    required this.todos,
+    required this.selectedId,
+  }) : super(equals: [todos, selectedId]);
+
+  @override
+  ViewModel fromStore() => ViewModel.build(
+    todos: state.todos.entities,
+    selectedId: state.todos.selectedId!,
+  );
+}
 
 class TodoItemScreen extends StatelessWidget {
-  void checkTodo({int id, bool value}) {
-    final updated = Todo(id: id, complete: value);
+  void checkTodo({required int id, required bool value}) {
+    final updated = UpdateTodo(id: id, complete: value);
     store.dispatch(CheckTodoAction(updated));
   }
 
   @override
   Widget build(BuildContext context) {
-    final int index = ModalRoute.of(context).settings.arguments;
+    final index = ModalRoute.of(context)!.settings.arguments as TodoItemScreenArguments;
 
-    store.dispatch(SelectTodoAction(index));
+    store.dispatch(SelectTodoAction(index.id));
 
-    return StoreConnector<AppState, Todo>(
-      converter: (store) => getSelectedTodo(store.state),
-      builder: buildTodoItem,
+    return StoreConnector<AppState, ViewModel>(
+      model: ViewModel(),
+      builder: (BuildContext context, ViewModel vm) {
+        return buildTodoItem(context: context, todo: getSelectedTodo(vm.todos, vm.selectedId));
+      },
     );
   }
 
-  Widget buildTodoItem(BuildContext context, Todo todo) {
+  Widget buildTodoItem({required BuildContext context, required Todo todo}) {
     return Scaffold(
       appBar: AppBar(
         title: Text(todo.title),
@@ -32,7 +53,7 @@ class TodoItemScreen extends StatelessWidget {
         actions: [
           Checkbox(
             value: todo.complete,
-            onChanged: (value) => this.checkTodo(id: todo.id, value: value),
+            onChanged: (value) => this.checkTodo(id: todo.id, value: value ?? false),
           ),
         ],
       ),

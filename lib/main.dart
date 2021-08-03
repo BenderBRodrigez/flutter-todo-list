@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:async_redux/async_redux.dart';
 
-import 'package:todo_flutter/screens/todo_list_screen.dart';
-import 'package:todo_flutter/screens/todo_item_screen.dart';
-import 'package:todo_flutter/screens/add_todo_item_screen.dart';
-import 'package:todo_flutter/redux/state.dart';
-import 'package:todo_flutter/redux/todos/actions.dart';
-import 'package:todo_flutter/shared/todo.dart';
+import './screens/todo_list_screen.dart';
+import './screens/todo_item_screen.dart';
+import './screens/add_todo_item_screen.dart';
+import './redux/state.dart';
+import './redux/todos/actions.dart';
+import './shared/todo.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:todo_flutter/redux/todos/actions.dart';
-import 'package:todo_flutter/shared/todo.dart';
-import 'package:todo_flutter/redux/state.dart';
+import '../redux/todos/actions.dart';
+import '../shared/todo.dart';
+import '../redux/state.dart';
 
 class AddTodoItemScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -20,8 +20,8 @@ class AddTodoItemScreen extends StatelessWidget {
             icon: Icon(Icons.check),
             tooltip: 'Create ToDo',
             onPressed: () {
-              if (!_formKey.currentState.validate()) return;
-              store.dispatch(CreateTodoAction(Todo(
+              if (!_formKey.currentState!.validate()) return;
+              store.dispatch(CreateTodoAction(CreateTodo(
                   title: _titleController.text,
                   description: _descriptionController.text,
               )));
@@ -52,7 +52,7 @@ class AddTodoItemScreen extends StatelessWidget {
   Widget buildTitleFormField(BuildContext context) {
     return TextFormField(
       validator: (value) {
-        return value.isEmpty ? 'Not empty' : null;
+        return value != null && value.isNotEmpty ? null : 'Not empty';
       },
       controller: _titleController,
       decoration: InputDecoration(

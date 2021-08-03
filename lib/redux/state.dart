@@ -2,18 +2,18 @@ import 'dart:developer';
 
 import 'package:async_redux/async_redux.dart';
 
-import 'package:todo_flutter/redux/todos/state.dart';
+import 'todos/state.dart';
 
 class AppState {
-  final TodosState todos;
+  late final TodosState todos;
 
   AppState({
-    this.todos,
+    required this.todos,
   });
 
   static getUpdatedList(List<dynamic> collection) => collection.toSet().toList();
 
-  AppState update({TodosState todos}) => AppState(
+  AppState update({TodosState? todos}) => AppState(
     todos: todos ?? this.todos,
   );
 }
