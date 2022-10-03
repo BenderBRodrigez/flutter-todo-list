@@ -28,7 +28,7 @@ final store = Store<AppState>(
 
 class StateLogger extends StateObserver<AppState> {
   @override
-  void observe(ReduxAction<AppState> action, AppState stateIni, AppState stateEnd, int dispatchCount) {
+  void observe(ReduxAction<AppState> action, AppState stateIni, AppState stateEnd, Object? error, int dispatchCount) {
     debugger();
   }
 }
