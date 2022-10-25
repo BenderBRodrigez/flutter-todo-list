@@ -7,11 +7,12 @@ import '../redux/todos/state.dart';
 import '../redux/todos/actions.dart';
 import '../redux/store.dart';
 import 'todo_item_screen.dart';
+import 'add_todo_item_screen.dart';
 
 class TodoListScreen extends StatelessWidget {
   static const routeName = '/';
 
-  TodoListScreen({Key? key}) : super(key: key);
+  TodoListScreen({super.key});
 
   final todos$ = getTodos();
 
@@ -28,6 +29,12 @@ class TodoListScreen extends StatelessWidget {
           itemBuilder: (context, index) =>
               buildItem(context, snapshot.data![index]),
         ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.pushNamed(context, AddTodoItemScreen.routeName);
+          },
+          child: const Icon(Icons.add),
+        ),
       ),
     );
   }
@@ -36,10 +43,7 @@ class TodoListScreen extends StatelessWidget {
     return ListTile(
       leading: Checkbox(
         value: todo.completed,
-        onChanged: (value) => store.dispatch(TodoAction(
-          todo,
-          ActionType.toggle,
-        )),
+        onChanged: (value) => store.dispatch(UpdateTodoAction(todo)),
       ),
       title: Text(
         todo.title,

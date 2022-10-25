@@ -1,28 +1,36 @@
+import 'package:flutter/cupertino.dart';
+
 import 'state.dart';
 
-abstract class Action {
-  ActionType get type;
-  Todo get payload;
+class ReduxAction<P> {
+  ActionType type;
+  P payload;
+
+  ReduxAction(this.payload, this.type);
 }
 
 enum ActionType {
-  add,
-  remove,
-  toggle,
-  //
-  added,
-  removed,
-  toggled,
+  set,
+  create,
+  update,
 }
 
-class TodoAction implements Action {
-  @override
-  final Todo payload;
-  @override
-  final ActionType type;
+class SetTodosAction extends ReduxAction<List<Todo>> {
+  SetTodosAction(List<Todo> payload) : super(payload, ActionType.set);
+}
 
-  const TodoAction(this.payload, this.type);
+class CreateTodoPayload {
+  CreateTodo todo;
+  BuildContext context;
 
-  @override
-  String toString() => 'Action { ${payload.id}, $type }';
+  CreateTodoPayload(this.todo, this.context);
+}
+
+class CreateTodoAction extends ReduxAction<CreateTodoPayload> {
+  CreateTodoAction(CreateTodoPayload payload)
+      : super(payload, ActionType.create);
+}
+
+class UpdateTodoAction extends ReduxAction<UpdateTodo> {
+  UpdateTodoAction(UpdateTodo payload) : super(payload, ActionType.update);
 }

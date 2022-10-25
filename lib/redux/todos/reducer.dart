@@ -1,19 +1,9 @@
 import 'state.dart';
 import 'actions.dart';
 
-TodoState reducer(TodoState state, Action action) {
+TodoState reducer(TodoState state, ReduxAction<dynamic> action) {
   switch (action.type) {
-    case ActionType.add:
-    case ActionType.remove:
-    case ActionType.toggle:
-      return state;
-    case ActionType.added:
-      return TodoState([...state.todos, action.payload]);
-    case ActionType.removed:
-      return TodoState(
-        state.todos.where((t) => t.id != action.payload.id).toList(),
-      );
-    case ActionType.toggled:
+    case ActionType.update:
       final todos = state.todos
           .map((t) => t.id != action.payload.id
               ? t
@@ -25,6 +15,16 @@ TodoState reducer(TodoState state, Action action) {
                 ))
           .toList(growable: false);
       return TodoState(todos);
+    case ActionType.create:
+      final created = Todo(
+        id: state.todos.length,
+        title: action.payload.todo.title,
+        completed: false,
+        description: action.payload.todo.description,
+      );
+      return TodoState([...state.todos, created]);
+    case ActionType.set:
+      return TodoState([...state.todos, ...action.payload]);
     default:
       return state;
   }

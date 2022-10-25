@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'screens/todo_list_screen.dart';
 import 'screens/todo_item_screen.dart';
+import 'screens/add_todo_item_screen.dart';
 import 'redux/store.dart';
 import 'redux/todos/state.dart';
 import 'redux/todos/actions.dart';
@@ -17,16 +18,15 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    for (var i = 0; i < 10; i++) {
-      store.dispatch(TodoAction(
-          Todo(
-            id: i,
-            title: 'Todo $i',
-            completed: false,
-            description: 'description $i',
-          ),
-          ActionType.add));
-    }
+    store.dispatch(SetTodosAction(List.generate(
+      10,
+      (i) => Todo(
+        id: i,
+        title: 'Todo $i',
+        description: 'Description of Todo $i',
+        completed: false,
+      ),
+    )));
 
     return MaterialApp(
       title: 'Flutter Demo',
@@ -38,7 +38,7 @@ class App extends StatelessWidget {
       routes: {
         TodoListScreen.routeName: (context) => TodoListScreen(),
         TodoItemScreen.routeName: (context) => const TodoItemScreen(),
-        // '/add': (context) => AddTodoItemScreen(),
+        AddTodoItemScreen.routeName: (context) => AddTodoItemScreen(),
       },
     );
   }

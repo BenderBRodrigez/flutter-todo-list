@@ -16,7 +16,7 @@ class TodoItemScreenArguments {
 class TodoItemScreen extends StatelessWidget {
   static const routeName = '/item';
 
-  const TodoItemScreen({Key? key}) : super(key: key);
+  const TodoItemScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -42,10 +42,7 @@ class TodoItemScreen extends StatelessWidget {
         actions: [
           Checkbox(
             value: todo.completed,
-            onChanged: (value) => store.dispatch(TodoAction(
-              todo,
-              ActionType.toggle,
-            )),
+            onChanged: (value) => store.dispatch(UpdateTodoAction(todo)),
           ),
         ],
       ),

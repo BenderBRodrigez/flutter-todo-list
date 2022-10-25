@@ -1,10 +1,14 @@
-class Todo {
+class Todo implements CreateTodo, UpdateTodo {
+  @override
   final int id;
-  final String title;
-  final bool completed;
-  final String description;
+  @override
+  bool completed;
+  @override
+  String title;
+  @override
+  String description;
 
-  const Todo({
+  Todo({
     required this.id,
     required this.title,
     required this.completed,
@@ -13,6 +17,20 @@ class Todo {
 
   @override
   String toString() => 'Todo { $id, $title, $completed }';
+}
+
+class CreateTodo {
+  String title;
+  String description;
+
+  CreateTodo({required this.title, required this.description});
+}
+
+class UpdateTodo {
+  final int id;
+  bool completed;
+
+  UpdateTodo({required this.id, required this.completed});
 }
 
 class TodoState {
