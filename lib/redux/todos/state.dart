@@ -34,10 +34,10 @@ class UpdateTodo {
 }
 
 class TodoState {
-  final List<Todo> todos;
+  final List<Todo> entities;
 
-  const TodoState(this.todos);
+  const TodoState(this.entities);
 
   @override
-  String toString() => 'TodoState { ${todos.length} }';
+  String toString() => 'TodoState { ${entities.length} }';
 }

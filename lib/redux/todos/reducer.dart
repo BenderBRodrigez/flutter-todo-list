@@ -1,10 +1,11 @@
 import 'state.dart';
 import 'actions.dart';
+import '../store.dart';
 
-TodoState reducer(TodoState state, ReduxAction<dynamic> action) {
+TodoState todoReducer(TodoState state, ReduxAction<dynamic> action) {
   switch (action.type) {
     case ActionType.update:
-      final todos = state.todos
+      final todos = state.entities
           .map((t) => t.id != action.payload.id
               ? t
               : Todo(
@@ -17,14 +18,14 @@ TodoState reducer(TodoState state, ReduxAction<dynamic> action) {
       return TodoState(todos);
     case ActionType.create:
       final created = Todo(
-        id: state.todos.length,
+        id: state.entities.length,
         title: action.payload.todo.title,
         completed: false,
         description: action.payload.todo.description,
       );
-      return TodoState([...state.todos, created]);
+      return TodoState([...state.entities, created]);
     case ActionType.set:
-      return TodoState([...state.todos, ...action.payload]);
+      return TodoState([...state.entities, ...action.payload]);
     default:
       return state;
   }

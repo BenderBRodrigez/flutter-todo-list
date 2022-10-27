@@ -1,13 +1,7 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import 'state.dart';
-
-class ReduxAction<P> {
-  ActionType type;
-  P payload;
-
-  ReduxAction(this.payload, this.type);
-}
+import '../store.dart';
 
 enum ActionType {
   set,

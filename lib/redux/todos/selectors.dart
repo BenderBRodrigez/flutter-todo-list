@@ -4,9 +4,10 @@ import 'state.dart';
 import '../store.dart';
 
 Stream<List<Todo>> getTodos() {
-  return store.select((s) => s.todos);
+  return store.select((s) => s['todos'].entities);
 }
 
 Stream<Todo> getTodo(int id) {
-  return store.select((s) => s.todos.singleWhere((e) => e.id == id));
+  return store
+      .select((s) => s['todos'].entities.singleWhere((e) => e.id == id));
 }
