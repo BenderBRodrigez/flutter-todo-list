@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
 import 'state.dart';
-import '../store.dart';
+import '../utils.dart';
 
-enum ActionType {
+enum TodoActionType {
   set,
   create,
   update,
 }
 
-class SetTodosAction extends ReduxAction<List<Todo>> {
-  SetTodosAction(List<Todo> payload) : super(payload, ActionType.set);
+class SetTodosAction extends ReduxAction<List<Todo>, TodoActionType> {
+  SetTodosAction(List<Todo> payload) : super(payload, TodoActionType.set);
 }
 
 class CreateTodoPayload {
@@ -20,11 +20,11 @@ class CreateTodoPayload {
   CreateTodoPayload(this.todo, this.context);
 }
 
-class CreateTodoAction extends ReduxAction<CreateTodoPayload> {
+class CreateTodoAction extends ReduxAction<CreateTodoPayload, TodoActionType> {
   CreateTodoAction(CreateTodoPayload payload)
-      : super(payload, ActionType.create);
+      : super(payload, TodoActionType.create);
 }
 
-class UpdateTodoAction extends ReduxAction<UpdateTodo> {
-  UpdateTodoAction(UpdateTodo payload) : super(payload, ActionType.update);
+class UpdateTodoAction extends ReduxAction<UpdateTodo, TodoActionType> {
+  UpdateTodoAction(UpdateTodo payload) : super(payload, TodoActionType.update);
 }
