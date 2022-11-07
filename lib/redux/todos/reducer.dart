@@ -2,8 +2,7 @@ import 'state.dart';
 import 'actions.dart';
 import '../utils.dart';
 
-TodoState todoReducer(
-    TodoState state, ReduxAction<dynamic, TodoActionType> action) {
+TodoState todoReducer(TodoState state, ReduxAction action) {
   switch (action.type) {
     case TodoActionType.update:
       final todos = state.entities

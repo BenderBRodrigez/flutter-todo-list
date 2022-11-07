@@ -1,7 +1,7 @@
 typedef ReduxState<S> = Map<S, dynamic>;
 
 class ReduxAction<P, T> {
-  P payload;
+  P? payload;
   T type;
 
   ReduxAction(this.payload, this.type);

@@ -7,6 +7,7 @@ enum TodoActionType {
   set,
   create,
   update,
+  getList,
 }
 
 class SetTodosAction extends ReduxAction<List<Todo>, TodoActionType> {
@@ -27,4 +28,8 @@ class CreateTodoAction extends ReduxAction<CreateTodoPayload, TodoActionType> {
 
 class UpdateTodoAction extends ReduxAction<UpdateTodo, TodoActionType> {
   UpdateTodoAction(UpdateTodo payload) : super(payload, TodoActionType.update);
+}
+
+class GetTodosAction extends ReduxAction<Object, TodoActionType> {
+  GetTodosAction() : super({}, TodoActionType.getList);
 }

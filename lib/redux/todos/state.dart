@@ -1,6 +1,6 @@
 class Todo implements CreateTodo, UpdateTodo {
   @override
-  final int id;
+  int id;
   @override
   bool completed;
   @override
@@ -15,8 +15,14 @@ class Todo implements CreateTodo, UpdateTodo {
     required this.description,
   });
 
-  @override
-  String toString() => 'Todo { $id, $title, $completed }';
+  factory Todo.fromJson(Map<String, dynamic> json) {
+    return Todo(
+      id: json['id'],
+      title: json['title'],
+      completed: json['completed'],
+      description: json['description'],
+    );
+  }
 }
 
 class CreateTodo {
