@@ -10,7 +10,7 @@ enum RequestActionType {
 
 class RequestPayload {
   final String key;
-  final Future<Response> Function() request;
+  final Future<Response> Function(ReduxAction) request;
 
   RequestPayload({
     required this.key,
