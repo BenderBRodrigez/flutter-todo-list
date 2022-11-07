@@ -31,7 +31,7 @@ Stream<ReduxAction> getTodosEffect(
       .whereType<GetTodosAction>()
       .map((action) => RequestAction(RequestPayload(
             key: 'get_todos_request',
-            request: (action) => apiService.getTodos(),
+            request: apiService.getTodos,
           )));
 }
 
