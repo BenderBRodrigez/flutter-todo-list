@@ -39,6 +39,7 @@ dependencies:
   rx_redux: ^2.5.0
   rxdart: ^0.27.5
   flutter_rx_stream_builder: ^2.0.1
+  http: ^0.13.5
 
 dev_dependencies:
   flutter_test:
