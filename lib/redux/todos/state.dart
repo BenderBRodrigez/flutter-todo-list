@@ -1,3 +1,8 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'state.g.dart';
+
+@JsonSerializable(explicitToJson: true)
 class Todo implements CreateTodo, UpdateTodo {
   @override
   int id;
@@ -15,14 +20,9 @@ class Todo implements CreateTodo, UpdateTodo {
     required this.description,
   });
 
-  factory Todo.fromJson(Map<String, dynamic> json) {
-    return Todo(
-      id: json['id'],
-      title: json['title'],
-      completed: json['completed'],
-      description: json['description'],
-    );
-  }
+  factory Todo.fromJson(Map<String, dynamic> json) => _$TodoFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TodoToJson(this);
 }
 
 class CreateTodo {
