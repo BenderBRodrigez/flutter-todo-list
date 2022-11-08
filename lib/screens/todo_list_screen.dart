@@ -12,14 +12,14 @@ import 'add_todo_item_screen.dart';
 class TodoListScreen extends StatelessWidget {
   static const routeName = '/';
 
-  TodoListScreen({super.key});
+  final _todos$ = getTodos();
 
-  final todos$ = getTodos();
+  TodoListScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return RxStreamBuilder(
-      stream: todos$,
+      stream: _todos$,
       builder: (context, snapshot) => Scaffold(
         appBar: AppBar(
           title: const Text('ToDo list'),

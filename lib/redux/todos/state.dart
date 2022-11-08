@@ -5,7 +5,7 @@ part 'state.g.dart';
 @JsonSerializable(explicitToJson: true)
 class Todo implements CreateTodo, UpdateTodo {
   @override
-  int id;
+  String id;
   @override
   bool completed;
   @override
@@ -33,7 +33,7 @@ class CreateTodo {
 }
 
 class UpdateTodo {
-  final int id;
+  final String id;
   bool completed;
 
   UpdateTodo({required this.id, required this.completed});

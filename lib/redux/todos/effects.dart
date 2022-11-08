@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:flutter/material.dart';
 
 import 'package:rxdart/rxdart.dart';
 import 'package:rx_redux/rx_redux.dart';
@@ -8,6 +7,7 @@ import 'package:rx_redux/rx_redux.dart';
 import 'state.dart';
 import 'actions.dart';
 import '../request/actions.dart';
+import '../store.dart';
 import '../utils.dart';
 import '../../shared/services/api_service.dart';
 
@@ -15,12 +15,33 @@ Stream<ReduxAction> createTodoEffect(
   Stream<ReduxAction> action$,
   GetState<ReduxState> state,
 ) {
-  Stream<ReduxAction<CreateTodoPayload, TodoActionType>> getBack(
-      action) async* {
-    Navigator.of(action.payload.context).pop();
-  }
+  return action$.whereType<CreateTodoAction>().map((action) {
+    final currentState = state();
+    final todo = Todo(
+      id: currentState[AppState.todos].entities.length.toString(),
+      title: action.payload!.title,
+      completed: false,
+      description: action.payload!.description,
+    );
+    return RequestAction(RequestPayload(
+      key: 'create_todo_request',
+      request: () => apiService.createTodo(todo.toJson()),
+    ));
+  });
+}
 
-  return action$.whereType<CreateTodoAction>().flatMap(getBack);
+Stream<ReduxAction> setTodoEffect(
+  Stream<ReduxAction> action$,
+  GetState<ReduxState> state,
+) {
+  return action$
+      .where((action) =>
+          action.type == RequestActionType.success &&
+          action.payload.key == 'create_todo_request')
+      .map((action) {
+        final todo = jsonDecode(action.payload.result.body);
+        return SetTodosAction([Todo.fromJson(todo)]);
+  });
 }
 
 Stream<ReduxAction> getTodosEffect(

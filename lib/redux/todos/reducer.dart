@@ -16,14 +16,6 @@ TodoState todoReducer(TodoState state, ReduxAction action) {
                 ))
           .toList(growable: false);
       return TodoState(todos);
-    case TodoActionType.create:
-      final created = Todo(
-        id: state.entities.length,
-        title: action.payload.todo.title,
-        completed: false,
-        description: action.payload.todo.description,
-      );
-      return TodoState([...state.entities, created]);
     case TodoActionType.set:
       return TodoState([...state.entities, ...action.payload]);
     default:

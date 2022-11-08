@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+
+import 'package:flutter_rx_stream_builder/flutter_rx_stream_builder.dart';
 
 import '../redux/todos/actions.dart';
 import '../redux/todos/state.dart';
+import '../redux/todos/selectors.dart';
 import '../redux/store.dart';
 
 class AddTodoItemScreen extends StatelessWidget {
@@ -10,33 +14,42 @@ class AddTodoItemScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   final _descriptionController = TextEditingController();
   final _titleController = TextEditingController();
+  final _created$ = getTodoCreateLoaded();
 
   AddTodoItemScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Create ToDo'),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.check),
-            tooltip: 'Create ToDo',
-            onPressed: () {
-              if (!_formKey.currentState!.validate()) return;
-              store.dispatch(CreateTodoAction(CreateTodoPayload(
-                CreateTodo(
-                  title: _titleController.text,
-                  description: _descriptionController.text,
+    return RxStreamBuilder(
+        stream: _created$,
+        builder: (context, snapshot) {
+          SchedulerBinding.instance.addPostFrameCallback((_) {
+            if (snapshot.data == true) {
+              Navigator.pop(context);
+            }
+          });
+
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text('Create ToDo'),
+              centerTitle: true,
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.check),
+                  tooltip: 'Create ToDo',
+                  onPressed: () {
+                    if (!_formKey.currentState!.validate()) return;
+                    store.dispatch(CreateTodoAction(CreateTodo(
+                      title: _titleController.text,
+                      description: _descriptionController.text,
+                    )));
+                  },
                 ),
-                context,
-              )));
-            },
-          ),
-        ],
-      ),
-      body: buildTodoItemForm(context),
+              ],
+            ),
+            body: buildTodoItemForm(context),
+          );
+          },
     );
   }
 

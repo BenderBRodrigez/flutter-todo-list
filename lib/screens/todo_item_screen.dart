@@ -8,7 +8,7 @@ import '../redux/todos/state.dart';
 import '../redux/todos/selectors.dart';
 
 class TodoItemScreenArguments {
-  final int id;
+  final String id;
 
   TodoItemScreenArguments(this.id);
 }
