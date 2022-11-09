@@ -43,7 +43,12 @@ class TodoListScreen extends StatelessWidget {
     return ListTile(
       leading: Checkbox(
         value: todo.completed,
-        onChanged: (value) => store.dispatch(UpdateTodoAction(todo)),
+        onChanged: (value) {
+          if (value != null) {
+            store.dispatch(
+                UpdateTodoAction(UpdateTodo(id: todo.id, completed: value)));
+          }
+        },
       ),
       title: Text(
         todo.title,

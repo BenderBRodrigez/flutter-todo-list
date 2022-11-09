@@ -30,6 +30,28 @@ Stream<ReduxAction> createTodoEffect(
   });
 }
 
+Stream<ReduxAction> updateTodoEffect(
+  Stream<ReduxAction> action$,
+  GetState<ReduxState> state,
+) {
+  return action$.whereType<UpdateTodoAction>().map((action) {
+    final currentState = state();
+    final currentTodo = currentState[AppState.todos]
+        .entities
+        .singleWhere((e) => e.id == action.payload!.id);
+    final todo = Todo(
+      id: currentTodo.id,
+      title: currentTodo.title,
+      completed: action.payload!.completed,
+      description: currentTodo.description,
+    );
+    return RequestAction(RequestPayload(
+      key: 'update_todo_request',
+      request: () => apiService.updateTodo(action.payload!.id, todo.toJson()),
+    ));
+  });
+}
+
 Stream<ReduxAction> setTodoEffect(
   Stream<ReduxAction> action$,
   GetState<ReduxState> state,
@@ -37,10 +59,11 @@ Stream<ReduxAction> setTodoEffect(
   return action$
       .where((action) =>
           action.type == RequestActionType.success &&
-          action.payload.key == 'create_todo_request')
+          (action.payload.key == 'create_todo_request' ||
+              action.payload.key == 'update_todo_request'))
       .map((action) {
-        final todo = jsonDecode(action.payload.result.body);
-        return SetTodosAction([Todo.fromJson(todo)]);
+    final todo = jsonDecode(action.payload.result.body);
+    return SetTodosAction([Todo.fromJson(todo)]);
   });
 }
 

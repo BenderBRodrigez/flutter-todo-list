@@ -13,5 +13,6 @@ Stream<Todo> getTodo(String id) {
 }
 
 Stream<bool?> getTodoCreateLoaded() {
-  return store.select((s) => s[AppState.request].requests['create_todo_request']?.loaded);
+  return store.select(
+      (s) => s[AppState.request].requests['create_todo_request']?.loaded);
 }

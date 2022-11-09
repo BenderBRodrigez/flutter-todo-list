@@ -23,6 +23,7 @@ final store = RxReduxStore<ReduxAction, ReduxState<AppState>>(
     getTodosEffect,
     setTodosEffect,
     createTodoEffect,
+    updateTodoEffect,
     setTodoEffect,
   ],
   reducer: combineReducers<AppState>({

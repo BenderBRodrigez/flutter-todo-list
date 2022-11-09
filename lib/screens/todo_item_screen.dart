@@ -42,7 +42,12 @@ class TodoItemScreen extends StatelessWidget {
         actions: [
           Checkbox(
             value: todo.completed,
-            onChanged: (value) => store.dispatch(UpdateTodoAction(todo)),
+            onChanged: (value) {
+              if (value != null) {
+                store.dispatch(UpdateTodoAction(
+                    UpdateTodo(id: todo.id, completed: value)));
+              }
+            },
           ),
         ],
       ),

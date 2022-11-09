@@ -21,35 +21,35 @@ class AddTodoItemScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RxStreamBuilder(
-        stream: _created$,
-        builder: (context, snapshot) {
-          SchedulerBinding.instance.addPostFrameCallback((_) {
-            if (snapshot.data == true) {
-              Navigator.pop(context);
-            }
-          });
+      stream: _created$,
+      builder: (context, snapshot) {
+        SchedulerBinding.instance.addPostFrameCallback((_) {
+          if (snapshot.data == true) {
+            Navigator.pop(context);
+          }
+        });
 
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text('Create ToDo'),
-              centerTitle: true,
-              actions: [
-                IconButton(
-                  icon: const Icon(Icons.check),
-                  tooltip: 'Create ToDo',
-                  onPressed: () {
-                    if (!_formKey.currentState!.validate()) return;
-                    store.dispatch(CreateTodoAction(CreateTodo(
-                      title: _titleController.text,
-                      description: _descriptionController.text,
-                    )));
-                  },
-                ),
-              ],
-            ),
-            body: buildTodoItemForm(context),
-          );
-          },
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Create ToDo'),
+            centerTitle: true,
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.check),
+                tooltip: 'Create ToDo',
+                onPressed: () {
+                  if (!_formKey.currentState!.validate()) return;
+                  store.dispatch(CreateTodoAction(CreateTodo(
+                    title: _titleController.text,
+                    description: _descriptionController.text,
+                  )));
+                },
+              ),
+            ],
+          ),
+          body: buildTodoItemForm(context),
+        );
+      },
     );
   }
 

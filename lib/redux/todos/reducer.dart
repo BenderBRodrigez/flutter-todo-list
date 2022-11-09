@@ -4,20 +4,16 @@ import '../utils.dart';
 
 TodoState todoReducer(TodoState state, ReduxAction action) {
   switch (action.type) {
-    case TodoActionType.update:
-      final todos = state.entities
-          .map((t) => t.id != action.payload.id
-              ? t
-              : Todo(
-                  id: t.id,
-                  title: t.title,
-                  completed: !t.completed,
-                  description: t.description,
-                ))
-          .toList(growable: false);
-      return TodoState(todos);
     case TodoActionType.set:
-      return TodoState([...state.entities, ...action.payload]);
+      final allTodoItems = state.entities + action.payload;
+      final List<Todo> result = [];
+      for (var item in allTodoItems) {
+        final lastItem = allTodoItems.lastWhere((element) => element.id == item.id);
+        if (!result.contains(lastItem)) {
+          result.add(lastItem);
+        }
+      }
+      return TodoState(result);
     default:
       return state;
   }

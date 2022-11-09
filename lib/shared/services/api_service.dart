@@ -26,6 +26,14 @@ class ApiService {
       body: jsonEncode(payload),
     );
   }
+
+  Future<http.Response> updateTodo(String id, Map<String, dynamic> payload) {
+    return http.put(
+      Uri.parse('$_url/todos/$id'),
+      headers: _headers,
+      body: jsonEncode(payload),
+    );
+  }
 }
 
 final apiService = ApiService();
