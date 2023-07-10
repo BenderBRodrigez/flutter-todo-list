@@ -1,11 +1,10 @@
 import 'dart:convert';
 
-import 'package:http/http.dart' as http;
-
 import '../models/todo.dart';
 import '../constants/api_constants.dart';
+import 'base_repository.dart';
 
-class TodosRepository {
+class TodosRepository extends BaseRepository {
   final _todosUri = Uri.parse('${ApiConstants.baseUrl}/todos');
 
   TodosRepository();

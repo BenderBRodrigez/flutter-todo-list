@@ -38,7 +38,7 @@ dependencies:
   flutter_bloc: ^8.1.0
   json_annotation: ^4.8.1
   equatable: ^2.0.5
-  http: ^1.0.0
+  http_interceptor: ^2.0.0-beta.7
 
 dev_dependencies:
   flutter_test:
