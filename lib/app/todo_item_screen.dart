@@ -18,7 +18,7 @@ class TodoItemScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return QueryBuilder(
-      query: apiService.getEntity<Todo>('todos/$id', Todo.fromJson),
+      query: apiService.getEntity<Todo>(['todos', id], Todo.fromJson),
       builder: (context, state) => state.status == QueryStatus.success
           ? buildTodoItem(
               context,
