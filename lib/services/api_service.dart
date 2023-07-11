@@ -5,12 +5,12 @@ import 'package:http_interceptor/http_interceptor.dart';
 
 import '../../interceptors/header_interceptor.dart';
 
-typedef Mapper<T> = T Function(Map<String, dynamic>);
+typedef EntityFromJson<T> = T Function(Map<String, dynamic>);
 
 class ApiService {
   static final ApiService _instance = ApiService._();
 
-  final _url = 'http://192.168.1.147:3000';
+  final _url = 'http://192.168.0.188:3000';
   final _http = InterceptedHttp.build(interceptors: [
     HeaderInterceptor(),
   ]);
@@ -38,24 +38,24 @@ class ApiService {
 
   InterceptedHttp get http => _http;
 
-  Query<List<T>> getList<T>( key, Mapper<T> mapper) {
+  Query<List<T>> getList<T>( key, EntityFromJson<T> entityFromJson) {
     return Query<List<T>>(
       key: key,
       queryFn: () async {
         final uri = _getUri(key);
         final response = await _http.get(uri);
-        return jsonDecode(response.body).toList().map<T>(mapper).toList();
+        return jsonDecode(response.body).toList().map<T>((item) => entityFromJson(item)).toList();
       },
     );
   }
 
-  Query<T> getEntity<T>(Object key, Mapper<T> mapper) {
+  Query<T> getEntity<T>(Object key, EntityFromJson<T> entityFromJson) {
     return Query<T>(
       key: key,
       queryFn: () async {
         final uri = _getUri(key);
         final response = await _http.get(uri);
-        return mapper(jsonDecode(response.body));
+        return entityFromJson(jsonDecode(response.body));
       },
     );
   }

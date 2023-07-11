@@ -17,7 +17,7 @@ class TodoListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return QueryBuilder(
-      query: apiService.getList<Todo>('todos', (json) => Todo.fromJson(json)),
+      query: apiService.getList<Todo>('todos', Todo.fromJson),
       builder: (context, state) => Scaffold(
         appBar: AppBar(
           title: const Text('ToDo list'),
