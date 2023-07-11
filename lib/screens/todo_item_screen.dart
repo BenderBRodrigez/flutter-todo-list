@@ -20,9 +20,9 @@ class ViewModel extends BaseModel<AppState> {
 
   @override
   ViewModel fromStore() => ViewModel.build(
-    todos: state.todos.entities,
-    selectedId: state.todos.selectedId!,
-  );
+        todos: state.todos.entities,
+        selectedId: state.todos.selectedId!,
+      );
 }
 
 class TodoItemScreen extends StatelessWidget {
@@ -33,14 +33,16 @@ class TodoItemScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final index = ModalRoute.of(context)!.settings.arguments as TodoItemScreenArguments;
+    final index =
+        ModalRoute.of(context)!.settings.arguments as TodoItemScreenArguments;
 
     store.dispatch(SelectTodoAction(index.id));
 
     return StoreConnector<AppState, ViewModel>(
       model: ViewModel(),
       builder: (BuildContext context, ViewModel vm) {
-        return buildTodoItem(context: context, todo: getSelectedTodo(vm.todos, vm.selectedId));
+        return buildTodoItem(
+            context: context, todo: getSelectedTodo(vm.todos, vm.selectedId));
       },
     );
   }
@@ -53,7 +55,8 @@ class TodoItemScreen extends StatelessWidget {
         actions: [
           Checkbox(
             value: todo.complete,
-            onChanged: (value) => this.checkTodo(id: todo.id, value: value ?? false),
+            onChanged: (value) =>
+                this.checkTodo(id: todo.id, value: value ?? false),
           ),
         ],
       ),

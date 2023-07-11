@@ -22,8 +22,8 @@ class AddTodoItemScreen extends StatelessWidget {
             onPressed: () {
               if (!_formKey.currentState!.validate()) return;
               store.dispatch(CreateTodoAction(CreateTodo(
-                  title: _titleController.text,
-                  description: _descriptionController.text,
+                title: _titleController.text,
+                description: _descriptionController.text,
               )));
             },
           ),
@@ -55,9 +55,7 @@ class AddTodoItemScreen extends StatelessWidget {
         return value != null && value.isNotEmpty ? null : 'Not empty';
       },
       controller: _titleController,
-      decoration: InputDecoration(
-          labelText: 'ToDo Title'
-      ),
+      decoration: InputDecoration(labelText: 'ToDo Title'),
     );
   }
 
@@ -66,9 +64,7 @@ class AddTodoItemScreen extends StatelessWidget {
       minLines: 2,
       maxLines: 3,
       controller: _descriptionController,
-      decoration: InputDecoration(
-          labelText: 'ToDo Description'
-      ),
+      decoration: InputDecoration(labelText: 'ToDo Description'),
     );
   }
 }

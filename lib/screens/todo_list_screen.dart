@@ -21,9 +21,9 @@ class ViewModel extends BaseModel<AppState> {
 
   @override
   ViewModel fromStore() => ViewModel.build(
-    todos: state.todos.entities,
-    sortParam: state.todos.sort,
-  );
+        todos: state.todos.entities,
+        sortParam: state.todos.sort,
+      );
 }
 
 class TodoListScreen extends StatelessWidget {
@@ -48,7 +48,8 @@ class TodoListScreen extends StatelessWidget {
       body: StoreConnector<AppState, ViewModel>(
         model: ViewModel(),
         builder: (BuildContext context, ViewModel vm) {
-          return buildList(context: context, todos: sortTodos(vm.todos, vm.sortParam));
+          return buildList(
+              context: context, todos: sortTodos(vm.todos, vm.sortParam));
         },
       ),
       floatingActionButton: FloatingActionButton(
@@ -60,7 +61,8 @@ class TodoListScreen extends StatelessWidget {
     );
   }
 
-  Widget buildList({required BuildContext context, List<Todo> todos = const []}) {
+  Widget buildList(
+      {required BuildContext context, List<Todo> todos = const []}) {
     return ListView.builder(
       itemCount: todos.length,
       itemBuilder: (context, index) => buildItem(context, todos[index]),
@@ -71,11 +73,14 @@ class TodoListScreen extends StatelessWidget {
     return ListTile(
       leading: Checkbox(
         value: todo.complete,
-        onChanged: (value) => this.checkTodo(id: todo.id, value: value ?? false),
+        onChanged: (value) =>
+            this.checkTodo(id: todo.id, value: value ?? false),
       ),
       title: Text(
         todo.title,
-        style: todo.complete ? TextStyle(decoration: TextDecoration.lineThrough) : null,
+        style: todo.complete
+            ? TextStyle(decoration: TextDecoration.lineThrough)
+            : null,
       ),
       onTap: () {
         Navigator.pushNamed(

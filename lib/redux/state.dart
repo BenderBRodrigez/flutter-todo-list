@@ -11,11 +11,12 @@ class AppState {
     required this.todos,
   });
 
-  static getUpdatedList(List<dynamic> collection) => collection.toSet().toList();
+  static getUpdatedList(List<dynamic> collection) =>
+      collection.toSet().toList();
 
   AppState update({TodosState? todos}) => AppState(
-    todos: todos ?? this.todos,
-  );
+        todos: todos ?? this.todos,
+      );
 }
 
 final store = Store<AppState>(
@@ -28,7 +29,13 @@ final store = Store<AppState>(
 
 class StateLogger extends StateObserver<AppState> {
   @override
-  void observe(ReduxAction<AppState> action, AppState stateIni, AppState stateEnd, Object? error, int dispatchCount) {
+  void observe(
+    ReduxAction<AppState> action,
+    AppState stateIni,
+    AppState stateEnd,
+    Object? error,
+    int dispatchCount,
+  ) {
     debugger();
   }
 }

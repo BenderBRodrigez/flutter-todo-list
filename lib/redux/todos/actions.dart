@@ -33,7 +33,8 @@ class CheckTodoAction extends ReduxAction<AppState> {
 
   @override
   AppState reduce() {
-    final todo = state.todos.entities.singleWhere((element) => element.id == payload.id);
+    final todo =
+        state.todos.entities.singleWhere((element) => element.id == payload.id);
     todo.complete = payload.complete;
 
     return state.update(todos: state.todos.updateCollection(entities: [todo]));
@@ -48,10 +49,10 @@ class CreateTodoAction extends ReduxAction<AppState> {
   @override
   AppState reduce() {
     final todo = Todo(
-        id: state.todos.entities.length,
-        title: payload.title,
-        description: payload.description,
-        complete: false,
+      id: state.todos.entities.length,
+      title: payload.title,
+      description: payload.description,
+      complete: false,
     );
     return state.update(todos: state.todos.updateCollection(entities: [todo]));
   }
