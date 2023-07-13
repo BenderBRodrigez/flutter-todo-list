@@ -77,7 +77,31 @@ class ApiService {
       onSuccess: (response, args) {
         CachedQuery.instance.updateQuery(
           key: key,
-          updateFn: (data) => response,
+          updateFn: (data) {
+            if (data is T) {
+              return response;
+            }
+          }
+        );
+      },
+    );
+  }
+
+  Mutation<T, T> createEntity<T>(Object key, EntityFromJson<T> entityFromJson) {
+    return Mutation(
+      queryFn: (body) async {
+        final uri = _getUri(key);
+        final response = await _http.post(uri, body: jsonEncode(body));
+        return entityFromJson(jsonDecode(response.body));
+      },
+      onSuccess: (response, args) {
+        CachedQuery.instance.updateQuery(
+          key: key,
+          updateFn: (data) {
+            if (data is List<T>) {
+              return [...data, response];
+            }
+          },
         );
       },
     );

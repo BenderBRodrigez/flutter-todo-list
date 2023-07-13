@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cached_query_todo_list/services/api_service.dart';
 
 import '../models/todo.dart';
+import 'add_todo_item_screen.dart';
 import 'todo_item_screen.dart';
 
 class TodoListScreen extends StatelessWidget {
@@ -31,7 +32,7 @@ class TodoListScreen extends StatelessWidget {
             : const SizedBox(),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            // Navigator.push(context, AddTodoItemScreen.route());
+            Navigator.push(context, AddTodoItemScreen.route(state.data!.length.toString()));
           },
           child: const Icon(Icons.add),
         ),
