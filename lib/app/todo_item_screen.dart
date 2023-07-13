@@ -34,14 +34,18 @@ class TodoItemScreen extends StatelessWidget {
         title: Text(todo.title),
         centerTitle: true,
         actions: [
-          Checkbox(
-            value: todo.completed,
-            onChanged: (value) {
-              if (value != null) {
-                // store.dispatch(UpdateTodoAction(
-                //     UpdateTodo(id: todo.id, completed: value)));
-              }
-            },
+          MutationBuilder(
+            mutation: apiService.updateEntity<Todo>(
+                ['todos', todo.id], Todo.fromJson,
+                refetchKeys: ['todos']),
+            builder: (context, state, mutate) => Checkbox(
+              value: todo.completed,
+              onChanged: (value) {
+                if (value != null) {
+                  mutate(todo.copyWith(completed: value));
+                }
+              },
+            ),
           ),
         ],
       ),

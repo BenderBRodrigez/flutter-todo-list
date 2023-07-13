@@ -19,4 +19,11 @@ class Todo {
   factory Todo.fromJson(Map<String, dynamic> json) => _$TodoFromJson(json);
 
   Map<String, dynamic> toJson() => _$TodoToJson(this);
+
+  Todo copyWith({String? id, bool? completed}) => Todo(
+        id: id ?? this.id,
+        completed: completed ?? this.completed,
+        title: title,
+        description: description,
+      );
 }

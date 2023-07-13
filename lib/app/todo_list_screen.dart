@@ -41,15 +41,20 @@ class TodoListScreen extends StatelessWidget {
 
   Widget buildItem(BuildContext context, Todo todo) {
     return ListTile(
-      leading: Checkbox(
-        value: todo.completed,
-        onChanged: (value) {
-          if (value != null) {
-            // context
-            //     .read<TodosBloc>()
-            //     .add(UpdateTodo(id: todo.id, completed: value));
-          }
-        },
+      leading: MutationBuilder(
+        mutation: apiService.updateEntity<Todo>(
+          ['todos', todo.id],
+          Todo.fromJson,
+          refetchKeys: ['todos'],
+        ),
+        builder: (context, state, mutate) => Checkbox(
+          value: todo.completed,
+          onChanged: (value) {
+            if (value != null) {
+              mutate(todo.copyWith(completed: value));
+            }
+          },
+        ),
       ),
       title: Text(
         todo.title,

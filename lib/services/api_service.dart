@@ -38,13 +38,16 @@ class ApiService {
 
   InterceptedHttp get http => _http;
 
-  Query<List<T>> getList<T>( key, EntityFromJson<T> entityFromJson) {
+  Query<List<T>> getList<T>(Object key, EntityFromJson<T> entityFromJson) {
     return Query<List<T>>(
       key: key,
       queryFn: () async {
         final uri = _getUri(key);
         final response = await _http.get(uri);
-        return jsonDecode(response.body).toList().map<T>((item) => entityFromJson(item)).toList();
+        return jsonDecode(response.body)
+            .toList()
+            .map<T>((item) => entityFromJson(item))
+            .toList();
       },
     );
   }
@@ -56,6 +59,26 @@ class ApiService {
         final uri = _getUri(key);
         final response = await _http.get(uri);
         return entityFromJson(jsonDecode(response.body));
+      },
+    );
+  }
+
+  Mutation<T, T> updateEntity<T>(Object key, EntityFromJson<T> entityFromJson,
+      {List<String> invalidateKeys = const [],
+      List<String> refetchKeys = const []}) {
+    return Mutation(
+      invalidateQueries: invalidateKeys,
+      refetchQueries: refetchKeys,
+      queryFn: (body) async {
+        final uri = _getUri(key);
+        final response = await _http.put(uri, body: jsonEncode(body));
+        return entityFromJson(jsonDecode(response.body));
+      },
+      onSuccess: (response, args) {
+        CachedQuery.instance.updateQuery(
+          key: key,
+          updateFn: (data) => response,
+        );
       },
     );
   }
