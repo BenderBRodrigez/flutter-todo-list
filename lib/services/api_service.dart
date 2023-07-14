@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cached_query_flutter/cached_query_flutter.dart';
+import 'package:flutter/material.dart';
 import 'package:http_interceptor/http_interceptor.dart';
 
 import '../../interceptors/header_interceptor.dart';
@@ -28,6 +29,18 @@ class ApiService {
     return Uri.parse('$_url/$keyString');
   }
 
+  _onError(BuildContext context, error) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(error.toString()),
+        action: SnackBarAction(
+          label: 'Close',
+          onPressed: () {},
+        ),
+      ),
+    );
+  }
+
   factory ApiService() {
     return _instance;
   }
@@ -38,7 +51,8 @@ class ApiService {
 
   InterceptedHttp get http => _http;
 
-  Query<List<T>> getList<T>(Object key, EntityFromJson<T> entityFromJson) {
+  Query<List<T>> getList<T>(
+      BuildContext context, Object key, EntityFromJson<T> entityFromJson) {
     return Query<List<T>>(
       key: key,
       queryFn: () async {
@@ -49,10 +63,12 @@ class ApiService {
             .map<T>((item) => entityFromJson(item))
             .toList();
       },
+      onError: (error) => _onError(context, error),
     );
   }
 
-  Query<T> getEntity<T>(Object key, EntityFromJson<T> entityFromJson) {
+  Query<T> getEntity<T>(
+      BuildContext context, Object key, EntityFromJson<T> entityFromJson) {
     return Query<T>(
       key: key,
       queryFn: () async {
@@ -60,10 +76,12 @@ class ApiService {
         final response = await _http.get(uri);
         return entityFromJson(jsonDecode(response.body));
       },
+      onError: (error) => _onError(context, error),
     );
   }
 
-  Mutation<T, T> updateEntity<T>(Object key, EntityFromJson<T> entityFromJson,
+  Mutation<T, T> updateEntity<T>(
+      BuildContext context, Object key, EntityFromJson<T> entityFromJson,
       {List<String> invalidateKeys = const [],
       List<String> refetchKeys = const []}) {
     return Mutation(
@@ -76,18 +94,19 @@ class ApiService {
       },
       onSuccess: (response, args) {
         CachedQuery.instance.updateQuery(
-          key: key,
-          updateFn: (data) {
-            if (data is T) {
-              return response;
-            }
-          }
-        );
+            key: key,
+            updateFn: (data) {
+              if (data is T) {
+                return response;
+              }
+            });
       },
+      onError: (args, error, fallback) => _onError(context, error),
     );
   }
 
-  Mutation<T, T> createEntity<T>(Object key, EntityFromJson<T> entityFromJson) {
+  Mutation<T, T> createEntity<T>(
+      BuildContext context, Object key, EntityFromJson<T> entityFromJson) {
     return Mutation(
       queryFn: (body) async {
         final uri = _getUri(key);
@@ -104,6 +123,7 @@ class ApiService {
           },
         );
       },
+      onError: (args, error, fallback) => _onError(context, error),
     );
   }
 }

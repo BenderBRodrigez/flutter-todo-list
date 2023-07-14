@@ -18,7 +18,7 @@ class TodoListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return QueryBuilder(
-      query: apiService.getList<Todo>('todos', Todo.fromJson),
+      query: apiService.getList<Todo>(context, 'todos', Todo.fromJson),
       builder: (context, state) => Scaffold(
         appBar: AppBar(
           title: const Text('ToDo list'),
@@ -32,7 +32,10 @@ class TodoListScreen extends StatelessWidget {
             : const SizedBox(),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.push(context, AddTodoItemScreen.route(state.data!.length.toString()));
+            Navigator.push(
+              context,
+              AddTodoItemScreen.route(state.data!.length.toString()),
+            );
           },
           child: const Icon(Icons.add),
         ),
@@ -44,6 +47,7 @@ class TodoListScreen extends StatelessWidget {
     return ListTile(
       leading: MutationBuilder(
         mutation: apiService.updateEntity<Todo>(
+          context,
           ['todos', todo.id],
           Todo.fromJson,
           refetchKeys: ['todos'],

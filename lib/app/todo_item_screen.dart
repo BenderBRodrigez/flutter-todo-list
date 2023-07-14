@@ -18,7 +18,7 @@ class TodoItemScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return QueryBuilder(
-      query: apiService.getEntity<Todo>(['todos', id], Todo.fromJson),
+      query: apiService.getEntity<Todo>(context, ['todos', id], Todo.fromJson),
       builder: (context, state) => state.status == QueryStatus.success
           ? buildTodoItem(
               context,
@@ -36,8 +36,11 @@ class TodoItemScreen extends StatelessWidget {
         actions: [
           MutationBuilder(
             mutation: apiService.updateEntity<Todo>(
-                ['todos', todo.id], Todo.fromJson,
-                refetchKeys: ['todos']),
+              context,
+              ['todos', todo.id],
+              Todo.fromJson,
+              refetchKeys: ['todos'],
+            ),
             builder: (context, state, mutate) => Checkbox(
               value: todo.completed,
               onChanged: (value) {
